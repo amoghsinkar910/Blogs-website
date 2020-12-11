@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{% static 'socialmedia/logo.png' %}" type="image/icon type">
+    <!-- Bootstrap CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'socialmedia/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'socialmedia/footer.css' %}">
+    
+    
+    {% if title %}
+        <title>{{title}}</title>
+    {% else %}
+        <title>BlogIt!</title>
+    {% endif %}
+</head>
+<body>
+      
+    <header class="site-header">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'sm-home' %}">
+              <img src="{% static 'socialmedia/logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+              <span style="font-family: 'Lobster', cursive;font-size: x-large">BlogIt</span>  
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+                <a class="nav-item nav-link" href="{%url 'sm-home' %}">Home</a>
+                <a class="nav-item nav-link" href="{%url 'sm-about' %}">About Us</a>
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+              {% if user.is_authenticated %}
+                <img class="rounded-circle mt-1" height=30 width=30 src="{{ user.profile.image.url }}">
+                <a class="nav-item nav-link" href="{% url 'profile' %}">{{ user.username }}</a>
+                <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+              {% else %}
+                <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+              {% endif %}
+
+            </div>
+            </div>
+        </div>
+        </nav>
+    </header>
+
+    
+
+    <main role="main" class="container">
+
+        <div class="row">
+          <!-- <div class="content-section col-md-8" >
+            {% if user.is_authenticated %}
+              <h2>Good Afternoon! {{ user.username }} </h2>
+            {% endif %}
+          </div> -->
+          <div class="col-md-8">
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+            {% block content %}{% endblock %}
+          </div>
+          <div class="col-md-4">
+            <div class="content-section">
+              {% if user.is_authenticated %}
+              <div class="alert alert-primary text-dark text-center" role="alert">
+                  <h2>Hey there, {{ user.username }}!</h2>
+              </div>
+              <a class="btn btn-primary" href="{% url 'post-create' %}">Add a New Post</a>
+              {% else %}
+              <div class="alert alert-info text-dark text-center" role="alert">
+               <h2> Welcome to <span style="font-family: 'Lobster', cursive;">Spectrum</span>!</h2>
+               <a class="btn btn-primary mt-2" href="">Sign Up Now</a>
+              </div>
+              
+              {% endif %}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        
+      </main>
+
+      <footer class="footer">
+        <div class="bg-dark text-center" style="width: 100%;" >
+          <span class="text-light">© 2020 Copyright : </span>
+          <a class="text-primary" href="{% url 'sm-home' %}">Spectrum.com</a>
+        </div>
+      </footer>
+      
+    
+
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
